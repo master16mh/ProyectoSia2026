@@ -1,10 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using ProyectoSia2025.BD;
-using ProyectoSia2025.BD.Data.Entities;
-using ProyectoSia2025.Repository.Repositorios;
-using ProyectoSia2025.Server.Client.Pages;
 using ProyectoSia2025.Server.Components;
-using ProyectoSia2025.Service.ServiciosHTTP;
 
 var builder = WebApplication.CreateBuilder(args);
 #region Configurar constructor de la aplicación y sus servicios
@@ -21,8 +17,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 //builder.Services.AddScoped<IRepositorio<Empresas>, Repositorio<Empresas>>(); (desactivado para inyección genérica)
 
-builder.Services.AddScoped(typeof(IRepositorio<>), typeof(Repositorio<>));
-builder.Services.AddScoped<IRepositorioEmpresa, RepositorioEmpresa>();
+
 
 
 // Add services to the container.

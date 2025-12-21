@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ProyectoSia2025.BD;
 
@@ -11,9 +12,11 @@ using ProyectoSia2025.BD;
 namespace ProyectoSia2025.BD.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251207214055_DatosRelacionadosOk")]
+    partial class DatosRelacionadosOk
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -79,56 +82,6 @@ namespace ProyectoSia2025.BD.Migrations
                         .IsUnique();
 
                     b.ToTable("ContactoEmpresas");
-                });
-
-            modelBuilder.Entity("ProyectoSia2025.BD.Data.Entities.Diseños", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("EmpleadoPropioId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("EstadoPlano")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Extension")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("FechaCreacion")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("NombreArchivo")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("ObraId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Observaciones")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("RutaArchivo")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<long>("TamañoBytes")
-                        .HasColumnType("bigint");
-
-                    b.Property<int>("Version")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("EmpleadoPropioId");
-
-                    b.HasIndex("ObraId");
-
-                    b.ToTable("Diseños");
                 });
 
             modelBuilder.Entity("ProyectoSia2025.BD.Data.Entities.EmpleadosPropios", b =>
@@ -210,131 +163,6 @@ namespace ProyectoSia2025.BD.Migrations
                     b.ToTable("Empresas");
                 });
 
-            modelBuilder.Entity("ProyectoSia2025.BD.Data.Entities.InformeInspeccion", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Conclusiones")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("FechaEmision")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("InspeccionId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Resultado")
-                        .HasColumnType("int");
-
-                    b.Property<string>("RutaPdfInforme")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("InspeccionId");
-
-                    b.ToTable("InformeInspecciones");
-                });
-
-            modelBuilder.Entity("ProyectoSia2025.BD.Data.Entities.InspeccionRequisito", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<bool>("Cumple")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("InspeccionId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Observacion")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("RequisitoSeguridadId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("InspeccionId");
-
-                    b.HasIndex("RequisitoSeguridadId");
-
-                    b.ToTable("InspeccionRequisitos");
-                });
-
-            modelBuilder.Entity("ProyectoSia2025.BD.Data.Entities.Inspecciones", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int?>("EmpleadoPropioId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("FechaProgramada")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("FechaRealizacion")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("ObraId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Observaciones")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("estadoInspeccion")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("EmpleadoPropioId");
-
-                    b.HasIndex("ObraId");
-
-                    b.ToTable("Inspecciones");
-                });
-
-            modelBuilder.Entity("ProyectoSia2025.BD.Data.Entities.NoConformidad", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<bool>("Corregida")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Descripcion")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("FechaCorreccion")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("FechaLimiteCorreccion")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("InspeccionId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("InspeccionId");
-
-                    b.ToTable("NoConformidades");
-                });
-
             modelBuilder.Entity("ProyectoSia2025.BD.Data.Entities.Obras", b =>
                 {
                     b.Property<int>("Id")
@@ -344,6 +172,7 @@ namespace ProyectoSia2025.BD.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Descripcion")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("EmpresaId")
@@ -352,23 +181,8 @@ namespace ProyectoSia2025.BD.Migrations
                     b.Property<int?>("EmpresasId")
                         .HasColumnType("int");
 
-                    b.Property<int>("EstadoHabilitacion")
-                        .HasColumnType("int");
-
                     b.Property<int>("EstadoObra")
                         .HasColumnType("int");
-
-                    b.Property<DateTime?>("FechaUltimaHabilitacion")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("FechaVencimientoHabilitacion")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("InformeHabilitanteId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("MotivoNoHabilitacion")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("NombreObra")
                         .IsRequired()
@@ -387,8 +201,6 @@ namespace ProyectoSia2025.BD.Migrations
                     b.HasIndex("EmpresaId");
 
                     b.HasIndex("EmpresasId");
-
-                    b.HasIndex("InformeHabilitanteId");
 
                     b.ToTable("Obras");
                 });
@@ -426,26 +238,6 @@ namespace ProyectoSia2025.BD.Migrations
                     b.ToTable("ObrasEmpleados");
                 });
 
-            modelBuilder.Entity("ProyectoSia2025.BD.Data.Entities.RequisitoSeguridad", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Descripcion")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("EsObligatorio")
-                        .HasColumnType("bit");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("RequisitoSeguridades");
-                });
-
             modelBuilder.Entity("EmpresasEmpresas", b =>
                 {
                     b.HasOne("ProyectoSia2025.BD.Data.Entities.Empresas", null)
@@ -472,25 +264,6 @@ namespace ProyectoSia2025.BD.Migrations
                     b.Navigation("Empresa");
                 });
 
-            modelBuilder.Entity("ProyectoSia2025.BD.Data.Entities.Diseños", b =>
-                {
-                    b.HasOne("ProyectoSia2025.BD.Data.Entities.EmpleadosPropios", "EmpleadoPropio")
-                        .WithMany()
-                        .HasForeignKey("EmpleadoPropioId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ProyectoSia2025.BD.Data.Entities.Obras", "Obra")
-                        .WithMany()
-                        .HasForeignKey("ObraId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("EmpleadoPropio");
-
-                    b.Navigation("Obra");
-                });
-
             modelBuilder.Entity("ProyectoSia2025.BD.Data.Entities.EmpleadosPropios", b =>
                 {
                     b.HasOne("ProyectoSia2025.BD.Data.Entities.Empresas", "Empresa")
@@ -500,64 +273,6 @@ namespace ProyectoSia2025.BD.Migrations
                         .IsRequired();
 
                     b.Navigation("Empresa");
-                });
-
-            modelBuilder.Entity("ProyectoSia2025.BD.Data.Entities.InformeInspeccion", b =>
-                {
-                    b.HasOne("ProyectoSia2025.BD.Data.Entities.Inspecciones", "Inspeccion")
-                        .WithMany()
-                        .HasForeignKey("InspeccionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Inspeccion");
-                });
-
-            modelBuilder.Entity("ProyectoSia2025.BD.Data.Entities.InspeccionRequisito", b =>
-                {
-                    b.HasOne("ProyectoSia2025.BD.Data.Entities.Inspecciones", "Inspeccion")
-                        .WithMany()
-                        .HasForeignKey("InspeccionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ProyectoSia2025.BD.Data.Entities.RequisitoSeguridad", "RequisitoSeguridad")
-                        .WithMany()
-                        .HasForeignKey("RequisitoSeguridadId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Inspeccion");
-
-                    b.Navigation("RequisitoSeguridad");
-                });
-
-            modelBuilder.Entity("ProyectoSia2025.BD.Data.Entities.Inspecciones", b =>
-                {
-                    b.HasOne("ProyectoSia2025.BD.Data.Entities.EmpleadosPropios", "EmpleadoPropio")
-                        .WithMany()
-                        .HasForeignKey("EmpleadoPropioId");
-
-                    b.HasOne("ProyectoSia2025.BD.Data.Entities.Obras", "Obra")
-                        .WithMany()
-                        .HasForeignKey("ObraId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("EmpleadoPropio");
-
-                    b.Navigation("Obra");
-                });
-
-            modelBuilder.Entity("ProyectoSia2025.BD.Data.Entities.NoConformidad", b =>
-                {
-                    b.HasOne("ProyectoSia2025.BD.Data.Entities.Inspecciones", "Inspeccion")
-                        .WithMany()
-                        .HasForeignKey("InspeccionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Inspeccion");
                 });
 
             modelBuilder.Entity("ProyectoSia2025.BD.Data.Entities.Obras", b =>
@@ -572,13 +287,7 @@ namespace ProyectoSia2025.BD.Migrations
                         .WithMany("ObrasAsociadas")
                         .HasForeignKey("EmpresasId");
 
-                    b.HasOne("ProyectoSia2025.BD.Data.Entities.InformeInspeccion", "InformeHabilitante")
-                        .WithMany()
-                        .HasForeignKey("InformeHabilitanteId");
-
                     b.Navigation("Empresa");
-
-                    b.Navigation("InformeHabilitante");
                 });
 
             modelBuilder.Entity("ProyectoSia2025.BD.Data.Entities.ObrasContactos", b =>

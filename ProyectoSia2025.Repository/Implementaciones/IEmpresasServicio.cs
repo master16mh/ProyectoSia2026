@@ -1,0 +1,13 @@
+﻿using ProyectoSia2025.BD.Data.Entities;
+
+namespace ProyectoSia2025.Repository.Implementaciones
+{
+    public interface IEmpresasServicio
+    {
+        Task<List<Empresas>> GetAllEnterprises();
+        Task<Empresas> GetEnterpriseById(int enterpriseId);
+        Task<Empresas> GetEnterpriseByCUIT(string cuit);
+        Task<string> AddEnterprise(Empresas enterprise);
+        Task<string> ModifyEnterprise(Empresas enterprise, int enterpriseId);
+    }
+}

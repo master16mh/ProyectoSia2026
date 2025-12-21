@@ -1,0 +1,145 @@
+﻿using Microsoft.EntityFrameworkCore;
+using ProyectoSia2025.BD;
+using ProyectoSia2025.BD.Data.Entities;
+using ProyectoSia2025.BD.Enums;
+using ProyectoSia2025.Repository.Implementaciones;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ProyectoSia2025.Repository.Servicios
+{
+    public class EmpresasServicio : IEmpresasServicio
+    {
+        private readonly AppDbContext dataBase;
+
+        public EmpresasServicio(AppDbContext dataBase)
+        {
+            this.dataBase = dataBase;
+        }
+
+        public async Task<List<Empresas>> GetAllEnterprises()
+        {
+            try
+            {
+                var enterprises = await dataBase.Empresas.ToListAsync();
+
+                if (enterprises.Count == 0)
+                {
+                    Console.WriteLine("No se encontraron empresas.");
+                    return new List<Empresas>();
+                }
+                return enterprises;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+                return new List<Empresas>();
+            }
+        }
+
+        public async Task<Empresas> GetEnterpriseById(int enterpriseId)
+        {
+            try
+            {
+                var enterprise = await dataBase.Empresas.FirstOrDefaultAsync(e => e.Id == enterpriseId);
+                if (enterprise == null)
+                {
+                    Console.WriteLine("No existe la empresa.");
+                    return null;
+                }
+                return enterprise;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+                return null;
+            }
+        }
+
+        public async Task<Empresas> GetEnterpriseByCUIT(string cuit)
+        {
+            try
+            {
+                var enterprise = await dataBase.Empresas.FirstOrDefaultAsync(e => e.CUIT == cuit);
+                if (enterprise == null)
+                {
+                    Console.WriteLine("No existe la empresa con el CUIT proporcionado.");
+                    return null;
+                }
+                return enterprise;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+                return null;
+            }
+        }
+
+        public async Task<string> AddEnterprise(Empresas enterprise)
+        {
+            try
+            {
+                var existingEnterprise = await dataBase.Empresas.AnyAsync(e => e.CUIT == enterprise.CUIT);
+                if(existingEnterprise)
+                {
+                    return "Ya existe una empresa con el mismo CUIT.";
+                }
+
+                if (string.IsNullOrWhiteSpace(enterprise.Nombre) || string.IsNullOrWhiteSpace(enterprise.RazonSocial) ||
+                   string.IsNullOrWhiteSpace(enterprise.CUIT) || string.IsNullOrWhiteSpace(enterprise.Direccion))
+                {
+                    return "Faltan datos obligatorios en campos de la empresa.";
+                }
+
+                enterprise.Nombre = enterprise.Nombre;
+                enterprise.RazonSocial = enterprise.RazonSocial;
+                enterprise.CUIT = enterprise.CUIT;
+                enterprise.Direccion = enterprise.Direccion;
+                enterprise.Estado = EnumEstadoEmpresa.Vinculada;
+
+                await dataBase.Empresas.AddAsync(enterprise);
+                await dataBase.SaveChangesAsync();
+
+                return "Empresa agregada exitosamente.";
+            }
+            catch (Exception ex)
+            {
+                return $"Error al añadir la empresa: {ex.Message}";
+            }
+        }
+
+        public async Task<string> ModifyEnterprise(Empresas enterprise, int enterpriseId)
+        {
+            try
+            {
+                var existingEnterprise = await dataBase.Empresas.FirstOrDefaultAsync(e => e.Id == enterpriseId);
+                if (existingEnterprise == null)
+                {
+                    return "La empresa no existe.";
+                }
+                if (string.IsNullOrWhiteSpace(enterprise.Nombre) || string.IsNullOrWhiteSpace(enterprise.RazonSocial) ||
+                   string.IsNullOrWhiteSpace(enterprise.CUIT) || string.IsNullOrWhiteSpace(enterprise.Direccion))
+                {
+                    return "Faltan datos obligatorios en campos de la empresa.";
+                }
+                existingEnterprise.Nombre = enterprise.Nombre;
+                existingEnterprise.RazonSocial = enterprise.RazonSocial;
+                existingEnterprise.CUIT = enterprise.CUIT;
+                existingEnterprise.Direccion = enterprise.Direccion;
+                existingEnterprise.Estado = enterprise.Estado;
+
+                dataBase.Empresas.Update(existingEnterprise);
+                await dataBase.SaveChangesAsync();
+
+                return "Empresa modificada exitosamente.";
+            }
+            catch (Exception ex)
+            {
+                return $"Error al modificar la empresa: {ex.Message}";
+            }
+        }
+    }
+}
