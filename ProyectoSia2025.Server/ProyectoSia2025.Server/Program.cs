@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using ProyectoSia2025.BD;
+using ProyectoSia2025.Repository.Implementaciones;
+using ProyectoSia2025.Repository.Servicios;
 using ProyectoSia2025.Server.Components;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,7 +17,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
                       options.UseSqlServer(connectionString));
 
 
-//builder.Services.AddScoped<IRepositorio<Empresas>, Repositorio<Empresas>>(); (desactivado para inyección genérica)
+builder.Services.AddScoped<IObrasServicio, ObrasServicio>();
 
 
 

@@ -83,24 +83,35 @@ namespace ProyectoSia2025.Repository.Servicios
         {
             try
             {
-                var enterpriseExist = await dataBase.Empresas.AnyAsync(e => e.Id == enterpriseId);
+                var enterpriseExist = await dataBase.Empresas
+                    .FirstOrDefaultAsync(e => e.Id == enterpriseId);
 
-                if (!enterpriseExist)
+                if (enterpriseExist == null)
                 {
-                    return "La empresa no existe.";
+                    enterpriseExist = new Empresas
+                    {
+                        Id = 1,
+                        Nombre = "Empresa Test",
+                        RazonSocial = "Probando",
+                        CUIT = "415",
+                        Direccion = "Lastra y gordilo 4688"
+                    };
+
+                    await dataBase.Empresas.AddAsync(enterpriseExist);
+                    await dataBase.SaveChangesAsync();
                 }
 
-                if (string.IsNullOrEmpty(work.NombreObra))
-                {
+                work.EmpresaId = enterpriseExist.Id;
+
+                if (string.IsNullOrWhiteSpace(work.NombreObra))
                     return "El nombre de la obra no puede estar vacío.";
-                }
 
                 if (work.Presupuesto <= 0)
-                {
-                    return "El presupuesto de la obra debe ser mayor a cero.";
-                }
+                    return "El presupuesto debe ser mayor a cero.";
 
                 work.EmpresaId = enterpriseId;
+                work.EstadoObra = EnumEstadoObra.Iniciada;
+
                 await dataBase.Obras.AddAsync(work);
                 await dataBase.SaveChangesAsync();
 

@@ -13,7 +13,7 @@ namespace ProyectoSia2025.BD.Data.Entities
         [Key]
         public int Id { get; set; }
 
-        public int EmpresaId { get; set; }
+        public int? EmpresaId { get; set; }
         public Empresas Empresa { get; set; }
 
         [Required(ErrorMessage = "Especifique nombre de la obra.")]
@@ -36,7 +36,7 @@ namespace ProyectoSia2025.BD.Data.Entities
         public string? MotivoNoHabilitacion { get; set; }
         public EnumEstadoObra EstadoObra { get; set; } = EnumEstadoObra.Iniciada;
         public EnumEstadoHabilitacionObra EstadoHabilitacion { get; set; } = EnumEstadoHabilitacionObra.EnInspeccion;
-        public ICollection<ObrasEmpleados> ObrasEmpleados { get; set; } = new List<ObrasEmpleados>();
-        public ICollection<ObrasContactos> ObrasContactos { get; set; } = new List<ObrasContactos>();
+        public ICollection<ObrasEmpleados>? ObrasEmpleados { get; set; } = new List<ObrasEmpleados>();
+        public ICollection<ObrasContactos>? ObrasContactos { get; set; } = new List<ObrasContactos>();
     }
 }

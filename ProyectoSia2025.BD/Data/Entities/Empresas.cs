@@ -30,11 +30,11 @@ namespace ProyectoSia2025.BD.Data.Entities
         public required string Direccion { get; set; }
 
         public EnumEstadoEmpresa? Estado { get; set; }
-        public List<ContactosEmpresas> ContactosEmpresas { get; set; } 
-        public List<EmpleadosPropios> EmpleadosPropios { get; set; }
-        public List<Empresas> EmpresasAsociadas { get; set; }
-        public List<Empresas> AsociadoConmigo { get; set; }
-        public List<Obras> Obras { get; set; }
-        public List<Obras> ObrasAsociadas { get; set; }
+        public List<ContactosEmpresas>? ContactosEmpresas { get; set; } 
+        public List<EmpleadosPropios>? EmpleadosPropios { get; set; }
+        public List<Empresas>? EmpresasAsociadas { get; set; }
+        public List<Empresas>? AsociadoConmigo { get; set; }
+        public List<Obras>? Obras { get; set; }
+        public List<Obras>? ObrasAsociadas { get; set; }
     }
 }
