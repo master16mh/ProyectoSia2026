@@ -1,5 +1,4 @@
-﻿using ProyectoSia2025.BD.Enums;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -31,7 +30,7 @@ namespace ProyectoSia2025.BD.Data.Entities
         public required string DireccionHogarEmpleado { get; set; }
 
         [Required(ErrorMessage = "Especifique el cargo del EMPLEADO.")]
-        public required EnumCargoEmpleadoYcontacto CargoEmpleado { get; set; }
+        public string CargoEmpleado { get; set; }
 
         public ICollection<ObrasEmpleados> ObrasEmpleados { get; set; }
     }

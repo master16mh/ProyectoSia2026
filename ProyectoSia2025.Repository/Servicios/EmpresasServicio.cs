@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ProyectoSia2025.BD;
 using ProyectoSia2025.BD.Data.Entities;
-using ProyectoSia2025.BD.Enums;
+using ProyectoSia2025.Shared.ENUM;
 using ProyectoSia2025.Repository.Implementaciones;
 using System;
 using System.Collections.Generic;

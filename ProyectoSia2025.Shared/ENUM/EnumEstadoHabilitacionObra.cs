@@ -6,11 +6,16 @@ using System.Threading.Tasks;
 
 namespace ProyectoSia2025.Shared.ENUM
 {
-    public enum EnumEstadoObra
+    public enum EnumEstadoHabilitacionObra
     {
         Ninguno = 0,
         Iniciada = 1,
-        Pausada = 2,
-        Terminada = 3
+        EnRevision = 2,
+        Habilitada = 3,
+        NoHabilitada = 4,
+        EnEjecucion = 5,
+        Suspendida = 6,
+        Finalizada = 7,
+        Cancelada = 8
     }
 }

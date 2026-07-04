@@ -1,5 +1,4 @@
-﻿using ProyectoSia2025.BD.Enums;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -20,7 +19,7 @@ namespace ProyectoSia2025.BD.Data.Entities
         public DateTime? FechaRealizacion { get; set; }
 
         [Required]
-        public EnumEstadoInspeccion estadoInspeccion { get; set; }
+        public string estadoInspeccion { get; set; }
         public string? Observaciones { get; set; }
         public int? EmpleadoPropioId { get; set; }
         public EmpleadosPropios? EmpleadoPropio { get; set; }

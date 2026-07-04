@@ -2,8 +2,10 @@
 using Microsoft.EntityFrameworkCore;
 using ProyectoSia2025.BD;
 using ProyectoSia2025.BD.Data.Entities;
+using ProyectoSia2025.Repository.Implementaciones;
 using ProyectoSia2025.Shared;
 using ProyectoSia2025.Shared.DTOS;
+using ProyectoSia2025.Shared.DTOS.Empresas;
 
 namespace ProyectoSia2025.Server.Controllers
 {
@@ -11,12 +13,26 @@ namespace ProyectoSia2025.Server.Controllers
     [Route("api/Empresas")]
     public class EmpresaController : ControllerBase
     {
-        private readonly AppDbContext context;
+        private readonly IEmpresasServicio empresasServicio;
 
-        // Constructor que recibe el contexto de la base de datos
-        public EmpresaController(AppDbContext context)
+        public EmpresaController(IEmpresasServicio empresasServicio)
         {
-            this.context = context;
+            this.empresasServicio = empresasServicio;
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Post(EmpresaCrearDTO empresaCrearDTO) 
+        {
+            var empresaCrear = new Empresas
+            {
+                Nombre = empresaCrearDTO.Nombre,
+                RazonSocial = empresaCrearDTO.RazonSocial,
+                CUIT = empresaCrearDTO.CUIT,
+                Direccion = empresaCrearDTO.Direccion,
+                Estado = empresaCrearDTO.Estado,
+            };
+            var resutado = await empresasServicio.AddEnterprise(empresaCrear);
+            return Ok (resutado);
         }
     }
 }

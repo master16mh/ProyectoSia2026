@@ -25,6 +25,7 @@ namespace ProyectoSia2025.Shared.DTOS.Obras
 
         public DateTime? FechaUltimaHabilitacion { get; set; }
         public DateTime? FechaVencimientoHabilitacion { get; set; }
+        public EnumEstadoObra Estado { get; set; }
 
         public string? MotivoNoHabilitacion { get; set; }
     }

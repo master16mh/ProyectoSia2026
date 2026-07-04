@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using ProyectoSia2025.BD.Enums;
+using ProyectoSia2025.Shared.ENUM;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -29,12 +29,9 @@ namespace ProyectoSia2025.BD.Data.Entities
         [Required(ErrorMessage = "Especifique la direccion de la Empresa.")]
         public required string Direccion { get; set; }
 
-        public EnumEstadoEmpresa? Estado { get; set; }
-        public List<ContactosEmpresas>? ContactosEmpresas { get; set; } 
+        public EnumEstadoEmpresa Estado { get; set; }
         public List<EmpleadosPropios>? EmpleadosPropios { get; set; }
-        public List<Empresas>? EmpresasAsociadas { get; set; }
-        public List<Empresas>? AsociadoConmigo { get; set; }
-        public List<Obras>? Obras { get; set; }
-        public List<Obras>? ObrasAsociadas { get; set; }
+        public List<Obras> Obras { get; set; }
+        public ICollection<ContactosEmpresas> ContactosEmpresas { get; set; }
     }
 }

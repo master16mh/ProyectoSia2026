@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ProyectoSia2025.BD.Enums;
+using ProyectoSia2025.Shared.ENUM;
 
 namespace ProyectoSia2025.BD.Data.Entities
 {
@@ -13,7 +13,7 @@ namespace ProyectoSia2025.BD.Data.Entities
         [Key]
         public int Id { get; set; }
 
-        public int? EmpresaId { get; set; }
+        public int EmpresaId { get; set; }
         public Empresas Empresa { get; set; }
 
         [Required(ErrorMessage = "Especifique nombre de la obra.")]
@@ -35,7 +35,7 @@ namespace ProyectoSia2025.BD.Data.Entities
         public InformeInspeccion? InformeHabilitante { get; set; }
         public string? MotivoNoHabilitacion { get; set; }
         public EnumEstadoObra EstadoObra { get; set; } = EnumEstadoObra.Iniciada;
-        public EnumEstadoHabilitacionObra EstadoHabilitacion { get; set; } = EnumEstadoHabilitacionObra.EnInspeccion;
+        public EnumEstadoHabilitacionObra EstadoHabilitacion { get; set; } = EnumEstadoHabilitacionObra.Iniciada;
         public ICollection<ObrasEmpleados>? ObrasEmpleados { get; set; } = new List<ObrasEmpleados>();
         public ICollection<ObrasContactos>? ObrasContactos { get; set; } = new List<ObrasContactos>();
     }

@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ProyectoSia2025.BD;
 using ProyectoSia2025.BD.Data.Entities;
-using ProyectoSia2025.BD.Enums;
 using ProyectoSia2025.Repository.Implementaciones;
+using ProyectoSia2025.Shared.ENUM;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -83,39 +83,32 @@ namespace ProyectoSia2025.Repository.Servicios
         {
             try
             {
-                var enterpriseExist = await dataBase.Empresas
-                    .FirstOrDefaultAsync(e => e.Id == enterpriseId);
+                var enterpriseExist = await dataBase.Empresas.FirstOrDefaultAsync(e => e.Id == enterpriseId);
 
                 if (enterpriseExist == null)
                 {
-                    enterpriseExist = new Empresas
-                    {
-                        Id = 1,
-                        Nombre = "Empresa Test",
-                        RazonSocial = "Probando",
-                        CUIT = "415",
-                        Direccion = "Lastra y gordilo 4688"
-                    };
-
-                    await dataBase.Empresas.AddAsync(enterpriseExist);
-                    await dataBase.SaveChangesAsync();
+                    return "La empresa no existe.";
                 }
-
-                work.EmpresaId = enterpriseExist.Id;
 
                 if (string.IsNullOrWhiteSpace(work.NombreObra))
                     return "El nombre de la obra no puede estar vacío.";
 
+                if (string.IsNullOrWhiteSpace(work.Ubicacion))
+                    return "La ubicación de la obra no puede estar vacío.";
+
                 if (work.Presupuesto <= 0)
                     return "El presupuesto debe ser mayor a cero.";
 
-                work.EmpresaId = enterpriseId;
+                if (work.EstadoObra == 0)
+                    return "Debe especificar un estado válido de la obra.";
+
+                work.EmpresaId = enterpriseExist.Id;
                 work.EstadoObra = EnumEstadoObra.Iniciada;
 
                 await dataBase.Obras.AddAsync(work);
                 await dataBase.SaveChangesAsync();
 
-                return "Obra creada correctamente.";
+                return "Obra agregada!";
             }
             catch (Exception ex)
             {
@@ -133,17 +126,14 @@ namespace ProyectoSia2025.Repository.Servicios
                     return "No existe la obra";
                 }
 
-                if (string.IsNullOrEmpty(work.NombreObra))
+                bool noName = string.IsNullOrWhiteSpace(work.NombreObra);
+                bool noDescription = string.IsNullOrWhiteSpace(work.Descripcion);
+                if (noName && noDescription)
                 {
-                    return "Debe especificar un nombre de identificacion de obra.";
+                    return "Debe especificar nombre y descripción de obra.";
                 }
 
-                if (string.IsNullOrEmpty(work.Descripcion))
-                {
-                    return "Especifique información.";
-                }
-
-                if (string.IsNullOrEmpty(work.Ubicacion))
+                if (string.IsNullOrWhiteSpace(work.Ubicacion))
                 {
                     return "Debe especificar la ubicación de la obra.";
                 }

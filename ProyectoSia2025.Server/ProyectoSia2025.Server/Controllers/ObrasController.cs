@@ -31,9 +31,15 @@ namespace ProyectoSia2025.Server.Controllers
                 Presupuesto = crearObraDTO.Presupuesto,
                 FechaUltimaHabilitacion = crearObraDTO.FechaUltimaHabilitacion,
                 FechaVencimientoHabilitacion = crearObraDTO.FechaVencimientoHabilitacion,
-                MotivoNoHabilitacion = crearObraDTO.MotivoNoHabilitacion
+                MotivoNoHabilitacion = crearObraDTO.MotivoNoHabilitacion,
+                EstadoObra = crearObraDTO.Estado,
             };
             var resultado = await obrasServicio.AddWork(obraCrear, crearObraDTO.EmpresaId);
+
+            if (resultado != null)
+            {
+                return BadRequest(resultado);
+            }
             return Ok(resultado);
         }
     }

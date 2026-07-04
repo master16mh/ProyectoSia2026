@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace ProyectoSia2025.Shared.DTOS.Obras
 {
-    public class VerObraDTO
+    public class ObraVerDTO
     {
         public int Id { get; set; }
         public string NombreObra { get; set; }

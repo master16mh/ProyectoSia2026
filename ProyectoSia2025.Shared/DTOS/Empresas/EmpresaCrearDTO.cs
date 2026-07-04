@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ProyectoSia2025.Shared.DTOS.Empresas
 {
-    public class EmpresasCrearDTO
+    public class EmpresaCrearDTO
     {
         [Required(ErrorMessage = "El nombre de la empresa es obligatorio")]
         public string Nombre { get; set; }
@@ -21,6 +21,6 @@ namespace ProyectoSia2025.Shared.DTOS.Empresas
 
         [Required(ErrorMessage = "La dirección de la empresa es obligatorio")]
         public string Direccion { get; set; }
-        public EnumEstadoEmpresa? Estado { get; set; } = EnumEstadoEmpresa.Vinculada;
+        public EnumEstadoEmpresa Estado { get; set; } = EnumEstadoEmpresa.Vinculada;
     }
 }

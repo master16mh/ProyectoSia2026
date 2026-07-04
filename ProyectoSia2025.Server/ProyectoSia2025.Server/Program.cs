@@ -19,6 +19,8 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 builder.Services.AddScoped<IObrasServicio, ObrasServicio>();
 
+builder.Services.AddScoped<IEmpresasServicio, EmpresasServicio>();
+
 
 
 

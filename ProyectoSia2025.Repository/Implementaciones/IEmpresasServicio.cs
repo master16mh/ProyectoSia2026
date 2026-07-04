@@ -7,7 +7,7 @@ namespace ProyectoSia2025.Repository.Implementaciones
         Task<List<Empresas>> GetAllEnterprises();
         Task<Empresas> GetEnterpriseById(int enterpriseId);
         Task<Empresas> GetEnterpriseByCUIT(string cuit);
-        Task<string> AddEnterprise(Empresas enterprise);
+        Task<string> AddEnterprise(Empresas enterpriseId);
         Task<string> ModifyEnterprise(Empresas enterprise, int enterpriseId);
     }
 }

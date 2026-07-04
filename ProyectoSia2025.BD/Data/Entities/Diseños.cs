@@ -1,5 +1,4 @@
-﻿using ProyectoSia2025.BD.Enums;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -23,9 +22,6 @@ namespace ProyectoSia2025.BD.Data.Entities
 
         [Required]
         public DateTime FechaCreacion { get; set; }
-
-        [Required]
-        public EnumEstadoPlano EstadoPlano { get; set; }
 
         [Required]
         public int Version { get; set; }
