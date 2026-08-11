@@ -59,6 +59,25 @@ namespace ProyectoSia2025.Repository.Servicios
             }
         }
 
+        public async Task<Empresas> GetEnterpriseByName(string nombre)
+        {
+            try
+            {
+                var enterprise = await dataBase.Empresas.FirstOrDefaultAsync(e => e.Nombre == nombre);
+                if (enterprise == null)
+                {
+                    Console.WriteLine("No existe la empresa con el nombre proporcionado.");
+                    return null;
+                }
+                return enterprise;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+                return null;
+            }
+        }
+
         public async Task<Empresas> GetEnterpriseByCUIT(string cuit)
         {
             try
@@ -127,7 +146,6 @@ namespace ProyectoSia2025.Repository.Servicios
                 }
                 existingEnterprise.Nombre = enterprise.Nombre;
                 existingEnterprise.RazonSocial = enterprise.RazonSocial;
-                existingEnterprise.CUIT = enterprise.CUIT;
                 existingEnterprise.Direccion = enterprise.Direccion;
                 existingEnterprise.Estado = enterprise.Estado;
 

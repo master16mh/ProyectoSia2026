@@ -23,6 +23,5 @@ namespace ProyectoSia2025.Shared.DTOS.Empresas
         public List<ContactoSimpleDTO> Contactos { get; set; } = new();
         public List<EmpleadoSimpleDTO> Empleados { get; set; } = new();
         public List<ObraAsociadaDTO> Obras { get; set; } = new();
-        public List<EmpresaSimpleDTO> EmpresasAsociadas { get; set; } = new();
     }
 }

@@ -19,6 +19,13 @@ namespace ProyectoSia2025.Server.Controllers
             this.obrasServicio = obrasServicio;
         }
 
+        [HttpGet]
+        public async Task<ActionResult<List<ObraListaDTO>>> GetWorks()
+        {
+            var obras = await obrasServicio.GetAllWorks(new ObraListaDTO());
+            return Ok(obras);
+        }
+
         [HttpPost]
         public async Task<ActionResult> Post(CrearObraDTO crearObraDTO)
         {

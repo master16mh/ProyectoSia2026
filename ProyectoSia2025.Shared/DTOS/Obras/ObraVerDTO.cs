@@ -13,17 +13,11 @@ namespace ProyectoSia2025.Shared.DTOS.Obras
     {
         public int Id { get; set; }
         public string NombreObra { get; set; }
+        public string NombreEmpresa { get; set; }
         public string Descripcion { get; set; }
         public string Ubicacion { get; set; }
         public decimal Presupuesto { get; set; }
         public string Estado { get; set; }
-
-        // Dueña de la obra
-        public EmpresaAsociadaDTO EmpresaDueña { get; set; }
-
-        // Otras empresas chilas trabajando
-        public List<EmpresaSimpleDTO> EmpresasInvolucradas { get; set; } = new();
-
         public List<EmpleadosPropiosDTO> EmpleadosPropios { get; set; } = new();
         public List<ContactosEmpresasDTO> EmpleadosExternos { get; set; } = new();
     }

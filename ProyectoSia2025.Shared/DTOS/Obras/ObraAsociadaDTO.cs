@@ -15,11 +15,6 @@ namespace ProyectoSia2025.Shared.DTOS.Obras
         public string Ubicacion { get; set; }
         public decimal Presupuesto { get; set; }
         public string Estado { get; set; }
-
-        // Quién es la empresa dueña de la obra
-        public EmpresaSimpleDTO EmpresaDueña { get; set; }
-
-        // True si esta obra pertenece a MI empresa
         public bool EsObraPropia { get; set; }
 
         // Empleados (tanto míos como externos) trabajando en la obra

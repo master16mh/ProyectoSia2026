@@ -2,6 +2,7 @@
 using ProyectoSia2025.BD;
 using ProyectoSia2025.BD.Data.Entities;
 using ProyectoSia2025.Repository.Implementaciones;
+using ProyectoSia2025.Shared.DTOS.Obras;
 using ProyectoSia2025.Shared.ENUM;
 using System;
 using System.Collections.Generic;
@@ -20,23 +21,27 @@ namespace ProyectoSia2025.Repository.Servicios
             this.dataBase = dataBase;
         }
 
-        public async Task<List<Obras>> GetAllWorks()
+        public async Task<List<ObraListaDTO>> GetAllWorks(ObraListaDTO obraListaDTO)
         {
             try
             {
-                var works = await dataBase.Obras.ToListAsync();
+                var works = await dataBase.Obras.Select(o => new ObraListaDTO
+                {
+                    NombreObra = o.NombreObra,
+                    Estado = o.EstadoObra.ToString()
+                }).ToListAsync();
 
                 if (works.Count == 0)
                 {
                     Console.WriteLine("No hay Obras disponibles");
-                    return new List<Obras>();
+                    return new List<ObraListaDTO>();
                 }
                 return works;
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Error: {ex.Message}");
-                return new List<Obras>();
+                return new List<ObraListaDTO>();
             }
         }
 
@@ -84,17 +89,19 @@ namespace ProyectoSia2025.Repository.Servicios
             try
             {
                 var enterpriseExist = await dataBase.Empresas.FirstOrDefaultAsync(e => e.Id == enterpriseId);
-
                 if (enterpriseExist == null)
                 {
                     return "La empresa no existe.";
                 }
 
-                if (string.IsNullOrWhiteSpace(work.NombreObra))
-                    return "El nombre de la obra no puede estar vacío.";
+                var workExist = await dataBase.Obras.FirstOrDefaultAsync(w => w.NombreObra == work.NombreObra && w.EmpresaId == enterpriseId);
+                if (workExist != null)
+                {
+                    return "Ya existe una obra con ese nombre para la empresa especificada.";
+                }
 
-                if (string.IsNullOrWhiteSpace(work.Ubicacion))
-                    return "La ubicación de la obra no puede estar vacío.";
+                if (string.IsNullOrWhiteSpace(work.NombreObra) || string.IsNullOrWhiteSpace(work.Ubicacion))
+                    return "El nombre y la ubicación de la obra no pueden estar vacíos.";
 
                 if (work.Presupuesto <= 0)
                     return "El presupuesto debe ser mayor a cero.";
