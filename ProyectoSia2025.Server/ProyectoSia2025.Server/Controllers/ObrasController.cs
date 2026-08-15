@@ -20,9 +20,31 @@ namespace ProyectoSia2025.Server.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<ObraListaDTO>>> GetWorks()
+        public async Task<ActionResult<List<Obras>>> GetWorks()
         {
-            var obras = await obrasServicio.GetAllWorks(new ObraListaDTO());
+            var obras = await obrasServicio.GetAllWorks();
+            return Ok(obras);
+        }
+
+        [HttpGet("Id/{Id:int}")]
+        public async Task<ActionResult<Obras>> GetWorkById(int Id)
+        {
+            var work = await obrasServicio.GetWorkById(Id);
+            if (work == null)
+            {
+                return NotFound();
+            }
+            return Ok(work);
+        }
+
+        [HttpGet("Nombre/{nombre}")]
+        public async Task<ActionResult<Obras>> GetWorkByName(string nombre)
+        {
+            var obras = await obrasServicio.GetWorkByName(nombre);
+            if (obras == null || obras.Count == 0)
+            {
+                return NotFound();
+            }
             return Ok(obras);
         }
 
@@ -43,11 +65,11 @@ namespace ProyectoSia2025.Server.Controllers
             };
             var resultado = await obrasServicio.AddWork(obraCrear, crearObraDTO.EmpresaId);
 
-            if (resultado != null)
+            if (!resultado)
             {
-                return BadRequest(resultado);
+                return BadRequest("No se pudo agregar la obra");
             }
-            return Ok(resultado);
+            return Ok("Obra agregada exitosamente.");
         }
     }
 }

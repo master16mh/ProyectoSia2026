@@ -11,17 +11,11 @@ using System.Threading.Tasks;
 
 namespace ProyectoSia2025.Shared.DTOS.Empresas
 {
-    public class EmpresaDTO
+    public class EmpresaListaDTO
     {
-        public int EmpresaId { get; set; }
+        public int Id { get; set; }
         public string Nombre { get; set; }
-        public string RazonSocial { get; set; }
-        public string CUIT { get; set; }
         public string Direccion { get; set; }
-        public bool EsMiEmpresa { get; set; }
-
-        public List<ContactoSimpleDTO> Contactos { get; set; } = new();
-        public List<EmpleadoSimpleDTO> Empleados { get; set; } = new();
-        public List<ObraAsociadaDTO> Obras { get; set; } = new();
+        public string Telefono { get; set; }
     }
 }

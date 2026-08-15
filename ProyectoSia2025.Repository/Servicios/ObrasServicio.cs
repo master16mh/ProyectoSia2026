@@ -21,30 +21,63 @@ namespace ProyectoSia2025.Repository.Servicios
             this.dataBase = dataBase;
         }
 
-        public async Task<List<ObraListaDTO>> GetAllWorks(ObraListaDTO obraListaDTO)
+        public async Task<List<Obras>> GetAllWorks()
+        {
+            try 
+            { 
+               var works = await dataBase.Obras.ToListAsync();
+
+                if (works == null)
+                {
+                    Console.WriteLine("No se encontraron obras.");
+                    return new List<Obras>();
+                }
+                return works;
+            }
+            catch (Exception ex) 
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+                return new List<Obras>();
+            }
+        }
+
+        public async Task<Obras> GetWorkById(int workId)
         {
             try
             {
-                var works = await dataBase.Obras.Select(o => new ObraListaDTO
+                var work = await dataBase.Obras.FirstOrDefaultAsync(o => o.Id == workId);
+                if (work == null)
                 {
-                    NombreObra = o.NombreObra,
-                    Estado = o.EstadoObra.ToString()
-                }).ToListAsync();
+                    Console.WriteLine("No existe la obra.");
+                    return null;
+                }
+                return work;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+                return null;
+            }
+        }
 
-                if (works.Count == 0)
+        public async Task<List<Obras>> GetWorkByName(string nombre)
+        {
+            try
+            {
+                var works = await dataBase.Obras.Where(o => EF.Functions.Collate(o.NombreObra, "Latin1_General_100_CI_AI").Contains(nombre)).ToListAsync();
+                if (works == null)
                 {
-                    Console.WriteLine("No hay Obras disponibles");
-                    return new List<ObraListaDTO>();
+                    Console.WriteLine("No se encontraron obras con el nombre proporcionado.");
+                    return null;
                 }
                 return works;
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Error: {ex.Message}");
-                return new List<ObraListaDTO>();
+                return null;
             }
         }
-
         public async Task<List<Obras>> GetWorksByEnterprise(int enterpriseId)
         {
             try
@@ -65,61 +98,45 @@ namespace ProyectoSia2025.Repository.Servicios
             }
         }
 
-        public async Task<Obras> GetWorkById(int workId)
-        {
-            try 
-            {
-                var work = await dataBase.Obras.FirstOrDefaultAsync(o => o.Id == workId);
-                if (work == null)
-                {
-                    Console.WriteLine("No existe la obra.");
-                    return null;
-                }
-                return work;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error: {ex.Message}");
-                return null;
-            }
-        }
+        
 
-        public async Task<string> AddWork(Obras work, int enterpriseId)
+        public async Task<bool> AddWork(Obras work, int enterpriseId)
         {
             try
             {
                 var enterpriseExist = await dataBase.Empresas.FirstOrDefaultAsync(e => e.Id == enterpriseId);
                 if (enterpriseExist == null)
                 {
-                    return "La empresa no existe.";
+                    return false;
                 }
 
                 var workExist = await dataBase.Obras.FirstOrDefaultAsync(w => w.NombreObra == work.NombreObra && w.EmpresaId == enterpriseId);
                 if (workExist != null)
                 {
-                    return "Ya existe una obra con ese nombre para la empresa especificada.";
+                    return false;
                 }
 
                 if (string.IsNullOrWhiteSpace(work.NombreObra) || string.IsNullOrWhiteSpace(work.Ubicacion))
-                    return "El nombre y la ubicación de la obra no pueden estar vacíos.";
+                { 
+                    return false;
+                }
 
                 if (work.Presupuesto <= 0)
-                    return "El presupuesto debe ser mayor a cero.";
-
-                if (work.EstadoObra == 0)
-                    return "Debe especificar un estado válido de la obra.";
+                { 
+                    return false;
+                }
 
                 work.EmpresaId = enterpriseExist.Id;
-                work.EstadoObra = EnumEstadoObra.Iniciada;
 
                 await dataBase.Obras.AddAsync(work);
                 await dataBase.SaveChangesAsync();
 
-                return "Obra agregada!";
+                return true;
             }
             catch (Exception ex)
             {
-                return $"Error al añadir la obra: {ex.Message}";
+                Console.WriteLine($"Error al agregar obra: {ex}");
+                return false;
             }
         }
 

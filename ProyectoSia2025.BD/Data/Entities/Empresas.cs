@@ -29,6 +29,9 @@ namespace ProyectoSia2025.BD.Data.Entities
         [Required(ErrorMessage = "Especifique la direccion de la Empresa.")]
         public required string Direccion { get; set; }
 
+        [Required(ErrorMessage = "Especifique el telefono de la Empresa.")]
+        public required string Telefono { get; set; }
+
         public EnumEstadoEmpresa Estado { get; set; }
         public List<EmpleadosPropios>? EmpleadosPropios { get; set; }
         public List<Obras> Obras { get; set; }

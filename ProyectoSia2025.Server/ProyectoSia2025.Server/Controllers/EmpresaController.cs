@@ -21,7 +21,7 @@ namespace ProyectoSia2025.Server.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<Empresas>>> GetAllEnterprises()
+        public async Task<ActionResult<List<EmpresaListaDTO>>> GetAllEnterprises()
         {
             var enterprises = await empresasServicio.GetAllEnterprises();
             return Ok(enterprises);
@@ -69,6 +69,7 @@ namespace ProyectoSia2025.Server.Controllers
                 RazonSocial = empresaCrearDTO.RazonSocial,
                 CUIT = empresaCrearDTO.CUIT,
                 Direccion = empresaCrearDTO.Direccion,
+                Telefono = empresaCrearDTO.Telefono,
                 Estado = empresaCrearDTO.Estado,
             };
             var resutado = await empresasServicio.AddEnterprise(empresaCrear);

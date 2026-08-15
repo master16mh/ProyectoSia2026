@@ -3,6 +3,7 @@ using ProyectoSia2025.BD;
 using ProyectoSia2025.BD.Data.Entities;
 using ProyectoSia2025.Shared.ENUM;
 using ProyectoSia2025.Repository.Implementaciones;
+using ProyectoSia2025.Shared.DTOS.Empresas;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,23 +21,30 @@ namespace ProyectoSia2025.Repository.Servicios
             this.dataBase = dataBase;
         }
 
-        public async Task<List<Empresas>> GetAllEnterprises()
+        public async Task<List<EmpresaListaDTO>> GetAllEnterprises()
         {
             try
             {
-                var enterprises = await dataBase.Empresas.ToListAsync();
-
+                var enterprises = await dataBase.Empresas.Select(e => new EmpresaListaDTO
+                {
+                    Id = e.Id,
+                    Nombre = e.Nombre,
+                    Direccion = e.Direccion,
+                    Telefono = e.Telefono
+                }).ToListAsync();
+               
                 if (enterprises.Count == 0)
                 {
                     Console.WriteLine("No se encontraron empresas.");
-                    return new List<Empresas>();
                 }
+
                 return enterprises;
+
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Error: {ex.Message}");
-                return new List<Empresas>();
+                return new List<EmpresaListaDTO>();
             }
         }
 
@@ -59,11 +67,11 @@ namespace ProyectoSia2025.Repository.Servicios
             }
         }
 
-        public async Task<Empresas> GetEnterpriseByName(string nombre)
+        public async Task<List<Empresas>> GetEnterpriseByName(string nombre)
         {
             try
             {
-                var enterprise = await dataBase.Empresas.FirstOrDefaultAsync(e => e.Nombre == nombre);
+                var enterprise = await dataBase.Empresas.Where(e => EF.Functions.Collate(e.Nombre, "Latin1_General_100_CI_AI").Contains(nombre)).ToListAsync();
                 if (enterprise == null)
                 {
                     Console.WriteLine("No existe la empresa con el nombre proporcionado.");
@@ -108,7 +116,7 @@ namespace ProyectoSia2025.Repository.Servicios
                 }
 
                 if (string.IsNullOrWhiteSpace(enterprise.Nombre) || string.IsNullOrWhiteSpace(enterprise.RazonSocial) ||
-                   string.IsNullOrWhiteSpace(enterprise.CUIT) || string.IsNullOrWhiteSpace(enterprise.Direccion))
+                   string.IsNullOrWhiteSpace(enterprise.CUIT) || string.IsNullOrWhiteSpace(enterprise.Direccion) || string.IsNullOrWhiteSpace(enterprise.Telefono))
                 {
                     return "Faltan datos obligatorios en campos de la empresa.";
                 }
@@ -117,6 +125,7 @@ namespace ProyectoSia2025.Repository.Servicios
                 enterprise.RazonSocial = enterprise.RazonSocial;
                 enterprise.CUIT = enterprise.CUIT;
                 enterprise.Direccion = enterprise.Direccion;
+                enterprise.Telefono = enterprise.Telefono;
                 enterprise.Estado = EnumEstadoEmpresa.Vinculada;
 
                 await dataBase.Empresas.AddAsync(enterprise);
