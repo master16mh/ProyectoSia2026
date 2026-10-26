@@ -18,7 +18,7 @@ namespace ProyectoSia2026.Shared.DTOS.Obras
         public string Ubicacion { get; set; }
         public decimal Presupuesto { get; set; }
         public string Estado { get; set; }
-        public List<EmpleadosPropiosDTO> EmpleadosPropios { get; set; } = new();
+        public List<EmpleadoPropioDTO> EmpleadosPropios { get; set; } = new();
         public List<ContactosEmpresasDTO> EmpleadosExternos { get; set; } = new();
     }
 }

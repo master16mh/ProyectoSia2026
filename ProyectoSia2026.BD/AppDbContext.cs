@@ -12,6 +12,7 @@ namespace ProyectoSia2026.BD
     public class AppDbContext : DbContext
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
+        public DbSet<Cargos> Cargos { get; set; }
         public DbSet<Empresas> Empresas { get; set; }
         public DbSet<Obras> Obras { get; set; }
         public DbSet<Inspecciones> Inspecciones { get; set; }

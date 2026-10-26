@@ -14,7 +14,6 @@ namespace ProyectoSia2026.Server.Controllers
     public class EmpresaController : ControllerBase
     {
         private readonly IEmpresasServicio empresasServicio;
-
         public EmpresaController(IEmpresasServicio empresasServicio)
         {
             this.empresasServicio = empresasServicio;
@@ -27,15 +26,16 @@ namespace ProyectoSia2026.Server.Controllers
             return Ok(enterprises);
         }
 
-        [HttpGet("Id/{Id:int}")]
-        public async Task<ActionResult<Empresas>> GetEnterpriseById(int Id)
+        [HttpGet("Id/{id:int}")]
+        public async Task<ActionResult<Empresas>> GetEnterpriseById(int id)
         {
-            var enterprise = await empresasServicio.GetEnterpriseById(Id);
+            Console.WriteLine($"Id recibido: {id}");
+            var enterprise = await empresasServicio.GetEnterpriseById(id);
             if (enterprise == null)
             {
                 return NotFound();
             }
-            return Ok(enterprise);
+            return Ok(enterprise);  
         }
 
         [HttpGet("Cuit/{cuit}")]

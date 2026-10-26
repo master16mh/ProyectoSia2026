@@ -14,6 +14,8 @@ namespace ProyectoSia2026.BD.Data.Entities
         public int Id { get; set; }
         public int EmpresaId { get; set; }
         public Empresas Empresa { get; set; }
+        public int CargoId { get; set; }
+        public Cargos Cargo { get; set; }
         public string Nombre { get; set; }
         public int DNI { get; set; }
         public string Rol { get; set; }

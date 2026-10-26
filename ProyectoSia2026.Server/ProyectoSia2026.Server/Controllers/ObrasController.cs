@@ -26,10 +26,10 @@ namespace ProyectoSia2026.Server.Controllers
             return Ok(obras);
         }
 
-        [HttpGet("Id/{Id:int}")]
-        public async Task<ActionResult<Obras>> GetWorkById(int Id)
+        [HttpGet("Id/{id:int}")]
+        public async Task<ActionResult<Obras>> GetWorkById(int id)
         {
-            var work = await obrasServicio.GetWorkById(Id);
+            var work = await obrasServicio.GetWorkById(id);
             if (work == null)
             {
                 return NotFound();

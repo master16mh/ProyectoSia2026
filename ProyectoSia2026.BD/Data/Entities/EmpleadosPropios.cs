@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ProyectoSia2026.Shared.ENUM;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -11,10 +12,11 @@ namespace ProyectoSia2026.BD.Data.Entities
     {
         [Key]
         public int Id { get; set; }
-
         public int EmpresaId { get; set; }
         public Empresas Empresa { get; set; }
-
+        public int CargoId { get; set; }
+        public Cargos Cargo { get; set; }
+        
         [Required(ErrorMessage = "Especifique el nombre.")]
         public required string Nombre { get; set; }
 
@@ -25,12 +27,11 @@ namespace ProyectoSia2026.BD.Data.Entities
 
         [Required(ErrorMessage = "Especifique el TELEFONO.")]
         public required string Telefono { get; set; }
+        [Required(ErrorMessage = "Especifique el EMAIL.")]
+        public required string Email { get; set; }
 
         [Required(ErrorMessage = "Especifique la DIRECCION.")]
         public required string DireccionHogarEmpleado { get; set; }
-
-        [Required(ErrorMessage = "Especifique el cargo del EMPLEADO.")]
-        public string CargoEmpleado { get; set; }
 
         public ICollection<ObrasEmpleados> ObrasEmpleados { get; set; }
     }
